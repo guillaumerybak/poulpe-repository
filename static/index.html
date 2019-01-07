@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Package Upload</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+    <script src="keycloak.js"></script>
+    <script>
+        var keycloak = Keycloak({
+            url: 'https://witbe.app/id/auth',
+            realm: 'master',
+            clientId: 'witbe-packages-frontend'
+        });
+        setTimeout(() => {
+            keycloak.init({ onLoad: 'login-required' }).success((authenticated) => {
+                console.log("authenticated")
+            }).error(function() {
+                console.error(keycloak)
+                alert('Failed to initialize the authentication process, the service will not work.');
+            });
+        }, 500)
+    </script>
+</head>
+<body>
+    <form action="api/package" method="post" enctype="multipart/form-data">
+        <label>Package<input type="file" name="package" id="package"></label>
+        <label>Repository<input type="text" name="repository" id="repository"></label>
+        <input type="submit" value="Upload" name="submit">
+    </form>
+</body>
+</html>
